@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>অষ্টম শ্রেণী বিজ্ঞান সহায়ক</title>
+    <title>অষ্টম শ্রেণী পরিবেশ ও বিজ্ঞান</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@400;600;700&display=swap" rel="stylesheet">
     
     <script>
@@ -22,27 +25,35 @@
         body { font-family: 'Anek Bangla', sans-serif; background-color: #f3f4f6; }
         .spinner { border: 4px solid rgba(0,0,0,0.1); border-left-color: #059669; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; }
         ::-webkit-scrollbar-thumb { background: #10b981; border-radius: 4px; }
         .tab-btn.active { border-bottom: 2px solid #059669; color: #059669; font-weight: bold; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body class="text-gray-800 antialiased overflow-x-hidden">
 
+    <!-- Loading Overlay -->
     <div id="loader" class="fixed inset-0 bg-white/80 z-[100] hidden flex-col items-center justify-center backdrop-blur-sm">
         <div class="spinner mb-4"></div>
         <h2 class="text-xl font-bold text-primary">লোড হচ্ছে...</h2>
     </div>
 
+    <!-- Toast Notifications -->
     <div id="toast-container" class="fixed top-5 right-5 z-[110] flex flex-col gap-2"></div>
 
+    <!-- MAIN APP CONTAINER -->
     <div id="app" class="min-h-screen flex flex-col">
+
+        <!-- LOGIN VIEW -->
         <div id="view-login" class="flex-1 flex items-center justify-center p-4">
             <div class="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden">
                 <div class="bg-primary p-6 text-center text-white">
-                    <i class="fa-solid fa-atom text-4xl mb-2"></i>
-                    <h1 class="text-2xl font-bold">পরিবেশ ও বিজ্ঞান (অষ্টম শ্রেণী)</h1>
+                    <i class="fa-solid fa-flask text-4xl mb-2"></i>
+                    <h1 class="text-2xl font-bold">পরিবেশ ও বিজ্ঞান সহায়ক (অষ্টম শ্রেণী)</h1>
                 </div>
                 
                 <div class="flex border-b">
@@ -51,6 +62,7 @@
                 </div>
 
                 <div class="p-6">
+                    <!-- Student Form -->
                     <form id="form-student-login" class="space-y-4" onsubmit="handleStudentLogin(event)">
                         <div>
                             <label class="block text-sm font-semibold mb-1">নাম <span class="text-red-500">*</span></label>
@@ -77,6 +89,7 @@
                         <button type="submit" class="w-full bg-primary hover:bg-dark text-white font-bold py-2 px-4 rounded-lg transition shadow-md">প্রবেশ করুন</button>
                     </form>
 
+                    <!-- Admin Form -->
                     <form id="form-admin-login" class="space-y-4 hidden" onsubmit="handleAdminLogin(event)">
                         <div>
                             <label class="block text-sm font-semibold mb-1">অ্যাডমিন আইডি</label>
@@ -92,131 +105,137 @@
             </div>
         </div>
 
+        <!-- STUDENT DASHBOARD -->
         <div id="view-student" class="hidden flex-1 flex flex-col md:flex-row h-screen">
+            <!-- Mobile Header -->
             <div class="bg-primary text-white p-4 flex justify-between items-center md:hidden shadow-md z-10">
-                <h1 class="font-bold text-lg truncate"><i class="fa-solid fa-atom mr-2"></i>পরিবেশ ও বিজ্ঞান</h1>
-                <button onclick="toggleSidebar('std-sidebar')" class="text-white text-2xl"><i class="fa-solid fa-bars"></i></button>
+                <h1 class="font-bold text-lg truncate"><i class="fa-solid fa-flask mr-2"></i>পরিবেশ ও বিজ্ঞান</h1>
+                <button onclick="toggleSidebar('std-sidebar')" class="text-white text-2xl px-2"><i class="fa-solid fa-bars"></i></button>
             </div>
 
+            <!-- Sidebar -->
             <aside id="std-sidebar" class="bg-white w-full md:w-80 shadow-lg h-full fixed md:relative z-20 transform -translate-x-full md:translate-x-0 transition-transform duration-300 flex flex-col">
-                <div class="p-5 bg-primary text-white hidden md:block">
-                    <h1 class="font-bold text-xl"><i class="fa-solid fa-atom mr-2"></i>পরিবেশ ও বিজ্ঞান</h1>
-                    <p class="text-sm opacity-90 mt-1" id="std-user-name">Student Name</p>
+                <div class="p-5 bg-primary text-white hidden md:block shrink-0">
+                    <h1 class="font-bold text-xl"><i class="fa-solid fa-flask mr-2"></i>পরিবেশ ও বিজ্ঞান</h1>
+                    <p class="text-sm opacity-90 mt-1"><i class="fa-solid fa-user-graduate mr-1"></i> <span id="std-user-name">Student</span></p>
                 </div>
-                <div class="md:hidden p-4 bg-gray-100 flex justify-between items-center border-b">
+                <div class="md:hidden p-4 bg-gray-100 flex justify-between items-center border-b shrink-0">
                     <span class="font-bold text-primary">মেনু</span>
-                    <button onclick="toggleSidebar('std-sidebar')" class="text-xl text-gray-600"><i class="fa-solid fa-times"></i></button>
+                    <button onclick="toggleSidebar('std-sidebar')" class="text-xl text-gray-600 px-2"><i class="fa-solid fa-times"></i></button>
                 </div>
                 
-                <div class="flex-1 overflow-y-auto py-2">
+                <div class="flex-1 overflow-y-auto py-4 hide-scrollbar">
                     <nav id="std-chapter-list" class="space-y-1 mb-6"></nav>
                     
-                    <div class="mt-4 border-t pt-4">
-                        <p class="px-5 text-xs font-bold text-gray-400 uppercase mb-2">পরীক্ষা</p>
-                        <button onclick="loadStudentView('mock')" class="w-full text-left px-5 py-3 hover:bg-emerald-50 text-gray-700 font-semibold border-l-4 border-transparent hover:border-primary transition flex items-center gap-3">
-                            <i class="fa-solid fa-laptop-file text-blue-500 w-5"></i> মক টেস্ট (Mock Test)
-                        </button>
+                    <div class="px-5 mt-4 mb-2">
+                        <p class="text-xs font-bold text-gray-400 uppercase">অন্যান্য</p>
                     </div>
+                    <nav>
+                        <button onclick="loadStudentView('mock')" class="std-nav-btn w-full text-left px-5 py-3 hover:bg-emerald-50 text-gray-700 font-semibold border-l-4 border-transparent hover:border-primary transition flex items-center gap-3">
+                            <i class="fa-solid fa-laptop-file text-blue-500 w-5 text-center"></i> মক টেস্ট (Mock Test)
+                        </button>
+                    </nav>
                 </div>
-                <div class="p-4 border-t bg-gray-50">
+                <div class="p-4 border-t shrink-0">
                     <button onclick="logout()" class="w-full py-2 bg-red-50 text-red-600 font-bold rounded-lg hover:bg-red-100 transition"><i class="fa-solid fa-sign-out-alt mr-2"></i>লগআউট</button>
                 </div>
             </aside>
 
-            <main class="flex-1 bg-gray-50 h-full overflow-y-auto p-4 md:p-8 relative" id="std-main-content"></main>
+            <!-- Main Content Area -->
+            <main class="flex-1 bg-gray-50 h-full overflow-y-auto p-4 md:p-8 relative" id="std-main-content">
+                <!-- Content injected here -->
+            </main>
         </div>
 
+        <!-- ADMIN DASHBOARD -->
         <div id="view-admin" class="hidden flex-1 flex flex-col md:flex-row h-screen">
+            <!-- Mobile Header -->
             <div class="bg-gray-800 text-white p-4 flex justify-between items-center md:hidden shadow-md z-10">
                 <h1 class="font-bold text-lg"><i class="fa-solid fa-user-shield mr-2"></i>অ্যাডমিন প্যানেল</h1>
-                <button onclick="toggleSidebar('admin-sidebar')" class="text-white text-2xl"><i class="fa-solid fa-bars"></i></button>
+                <button onclick="toggleSidebar('admin-sidebar')" class="text-white text-2xl px-2"><i class="fa-solid fa-bars"></i></button>
             </div>
 
+            <!-- Sidebar -->
             <aside id="admin-sidebar" class="bg-gray-800 text-white w-full md:w-64 shadow-lg h-full fixed md:relative z-20 transform -translate-x-full md:translate-x-0 transition-transform duration-300 flex flex-col">
-                <div class="p-5 border-b border-gray-700 hidden md:block">
+                <div class="p-5 border-b border-gray-700 hidden md:block shrink-0">
                     <h1 class="font-bold text-xl"><i class="fa-solid fa-user-shield mr-2"></i>অ্যাডমিন প্যানেল</h1>
                 </div>
-                <div class="md:hidden p-4 bg-gray-900 flex justify-between items-center border-b border-gray-700">
+                <div class="md:hidden p-4 bg-gray-900 flex justify-between items-center border-b border-gray-700 shrink-0">
                     <span class="font-bold text-white">মেনু</span>
-                    <button onclick="toggleSidebar('admin-sidebar')" class="text-xl text-gray-400"><i class="fa-solid fa-times"></i></button>
+                    <button onclick="toggleSidebar('admin-sidebar')" class="text-xl text-gray-400 px-2"><i class="fa-solid fa-times"></i></button>
                 </div>
                 
-                <div class="flex-1 overflow-y-auto py-4">
+                <div class="flex-1 overflow-y-auto py-4 hide-scrollbar">
                     <nav id="admin-nav" class="space-y-1">
-                        <button onclick="switchAdminTab('students')" class="admin-tab w-full text-left px-5 py-3 hover:bg-gray-700 font-semibold border-l-4 border-transparent transition"><i class="fa-solid fa-users w-6"></i> ছাত্রছাত্রী</button>
-                        <button onclick="switchAdminTab('logs')" class="admin-tab w-full text-left px-5 py-3 hover:bg-gray-700 font-semibold border-l-4 border-transparent transition"><i class="fa-solid fa-history w-6"></i> লগিন হিস্ট্রি</button>
-                        <button onclick="switchAdminTab('materials')" class="admin-tab w-full text-left px-5 py-3 hover:bg-gray-700 font-semibold border-l-4 border-transparent transition"><i class="fa-solid fa-book w-6"></i> স্টাডি মেটেরিয়াল</button>
-                        <button onclick="switchAdminTab('videos')" class="admin-tab w-full text-left px-5 py-3 hover:bg-gray-700 font-semibold border-l-4 border-transparent transition"><i class="fa-brands fa-youtube w-6 text-red-400"></i> ভিডিও ক্লাস</button>
-                        <button onclick="switchAdminTab('mockTests')" class="admin-tab w-full text-left px-5 py-3 hover:bg-gray-700 font-semibold border-l-4 border-transparent transition"><i class="fa-solid fa-laptop-file w-6 text-blue-400"></i> মক টেস্ট</button>
-                        <button onclick="switchAdminTab('practiceTests')" class="admin-tab w-full text-left px-5 py-3 hover:bg-gray-700 font-semibold border-l-4 border-transparent transition"><i class="fa-solid fa-brain w-6 text-purple-400"></i> প্র্যাকটিস MCQ</button>
+                        <button onclick="switchAdminTab('students')" class="admin-tab w-full text-left px-5 py-3 hover:bg-gray-700 font-semibold border-l-4 border-transparent transition"><i class="fa-solid fa-users w-6 text-center"></i> ছাত্রছাত্রী</button>
+                        <button onclick="switchAdminTab('logs')" class="admin-tab w-full text-left px-5 py-3 hover:bg-gray-700 font-semibold border-l-4 border-transparent transition"><i class="fa-solid fa-history w-6 text-center"></i> লগিন হিস্ট্রি</button>
+                        <button onclick="switchAdminTab('materials')" class="admin-tab w-full text-left px-5 py-3 hover:bg-gray-700 font-semibold border-l-4 border-transparent transition"><i class="fa-solid fa-book w-6 text-center text-emerald-400"></i> স্টাডি মেটেরিয়াল</button>
+                        <button onclick="switchAdminTab('videos')" class="admin-tab w-full text-left px-5 py-3 hover:bg-gray-700 font-semibold border-l-4 border-transparent transition"><i class="fa-brands fa-youtube w-6 text-center text-red-400"></i> ভিডিও ক্লাস</button>
+                        <button onclick="switchAdminTab('mockTests')" class="admin-tab w-full text-left px-5 py-3 hover:bg-gray-700 font-semibold border-l-4 border-transparent transition"><i class="fa-solid fa-laptop-file w-6 text-center text-blue-400"></i> মক টেস্ট</button>
+                        <button onclick="switchAdminTab('practiceTests')" class="admin-tab w-full text-left px-5 py-3 hover:bg-gray-700 font-semibold border-l-4 border-transparent transition"><i class="fa-solid fa-brain w-6 text-center text-purple-400"></i> প্র্যাকটিস MCQ</button>
                     </nav>
                 </div>
-                <div class="p-4 border-t border-gray-700">
+                <div class="p-4 border-t border-gray-700 shrink-0">
                     <button onclick="logout()" class="w-full py-2 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg transition"><i class="fa-solid fa-sign-out-alt mr-2"></i>লগআউট</button>
                 </div>
             </aside>
 
-            <main class="flex-1 bg-gray-100 h-full overflow-y-auto p-4 md:p-8" id="admin-main-content"></main>
+            <!-- Main Content Area -->
+            <main class="flex-1 bg-gray-100 h-full overflow-y-auto p-4 md:p-8" id="admin-main-content">
+                <!-- Content injected here -->
+            </main>
         </div>
     </div>
 
     <!-- MAIN JAVASCRIPT LOGIC -->
     <script>
+        // ==========================================
+        // 1. CONFIGURATION & STATE
+        // ==========================================
+        
+        // Google Apps Script Web App URL
         const GAS_URL = "https://script.google.com/macros/s/AKfycbwsoROMQbsnr1SsQ1GxfFYq7Ie5JZS9eXdMTzMhL-0qU2JR-PvdkiDw8YAA0kg8A7_oDA/exec"; 
 
+        // অষ্টম শ্রেণীর সিলেবাস (পর্যায়ক্রমিক অনুযায়ী ভাগ করা)
         const CHAPTERS = [
-            { name: "1.1 বল ও চাপ", phase: "১ম" },
-            { name: "1.2 স্পর্শ ছাড়া ক্রিয়াশীল বল", phase: "১ম" },
-            { name: "2.1 পদার্থের প্রকৃতি", phase: "১ম" },
-            { name: "2.2 পদার্থের গঠন", phase: "১ম" },
-            { name: "3. দেহের গঠন", phase: "১ম" },
-            { name: "1.3 তাপ", phase: "২য়" },
-            { name: "2.3 রাসায়নিক বিক্রিয়া", phase: "২য়" },
-            { name: "2.4 তড়িতের রাসায়নিক প্রভাব", phase: "২য়" },
-            { name: "5. প্রাকৃতিক ঘটনা ও তার বিশ্লেষণ", phase: "২য়" },
-            { name: "8. মানুষের খাদ্য ও খাদ্য উৎপাদন", phase: "২য়" },
-            { name: "1.4 আলো", phase: "৩য়" },
-            { name: "3. কয়েকটি গ্যাসের পরিচিতি", phase: "৩য়" },
-            { name: "4. কার্বন ও কার্বনঘটিত যৌগ", phase: "৩য়" },
-            { name: "7. অণুজীবের জগৎ", phase: "৩য়" },
-            { name: "9. অন্তঃক্ষরা গ্রন্থি ও বয়ঃসন্ধি", phase: "৩য়" },
-            { name: "10. পরিবেশের সংকট ও সংরক্ষণ", phase: "৩য়" },
-            { name: "11. আমাদের চারপাশের পরিবেশ ও উদ্ভিদ জগৎ", phase: "৩য়" }
+            // প্রথম পর্যায়ক্রমিক
+            { name: "১.১ বল ও চাপ", phase: "প্রথম" },
+            { name: "১.২ স্পর্শ ছাড়া ক্রিয়াশীল বল", phase: "প্রথম" },
+            { name: "২.১ পদার্থের প্রকৃতি", phase: "প্রথম" },
+            { name: "২.২ পদার্থের গঠন", phase: "প্রথম" },
+            { name: "৩. দেহের গঠন", phase: "প্রথম" },
+            // দ্বিতীয় পর্যায়ক্রমিক
+            { name: "১.৩ তাপ", phase: "দ্বিতীয়" },
+            { name: "২.৩ রাসায়নিক বিক্রিয়া", phase: "দ্বিতীয়" },
+            { name: "২.৪ তড়িতের রাসায়নিক প্রভাব", phase: "দ্বিতীয়" },
+            { name: "৫. প্রাকৃতিক ঘটনা ও তার বিশ্লেষণ", phase: "দ্বিতীয়" },
+            { name: "৮. মানুষের খাদ্য ও খাদ্য উৎপাদন", phase: "দ্বিতীয়" },
+            // তৃতীয় পর্যায়ক্রমিক
+            { name: "১.৪ আলো", phase: "তৃতীয়" },
+            { name: "৩. কয়েকটি গ্যাসের পরিচিতি", phase: "তৃতীয়" },
+            { name: "৪. কার্বন ও কার্বনঘটিত যৌগ", phase: "তৃতীয়" },
+            { name: "৭. অণুজীবের জগৎ", phase: "তৃতীয়" },
+            { name: "৯. অন্তঃক্ষরা গ্রন্থি ও বয়ঃসন্ধি", phase: "তৃতীয়" },
+            { name: "১০. পরিবেশের সংকট ও সংরক্ষণ", phase: "তৃতীয়" },
+            { name: "১১. আমাদের চারপাশের পরিবেশ ও উদ্ভিদ জগৎ", phase: "তৃতীয়" }
         ];
 
         let state = {
             currentUser: null,
             view: 'login',
             data: { materials: [], videos: [], mockTests: [], practiceTests: [], students: [], logs: [] },
-            currentChapter: 0,
+            currentChapter: null,
             studentTab: 'notes',
             score: 0
         };
 
-        // Initialize Mock Data on First Load
-        if (!localStorage.getItem('ls_data')) {
-            const initialData = {
-                materials: [
-                    { chapter: "8. মানুষের খাদ্য ও খাদ্য উৎপাদন", type: "Notes", title: "খাদ্য ও তার উপাদান - সম্পূর্ণ নোটস", link: "#" },
-                    { chapter: "8. মানুষের খাদ্য ও খাদ্য উৎপাদন", type: "QuestionBank", title: "গুরুত্বপূর্ণ প্রশ্ন ও উত্তর", link: "#" }
-                ],
-                videos: [
-                    { chapter: "8. মানুষের খাদ্য ও খাদ্য উৎপাদন", title: "ভিডিও ক্লাস ১: শর্করা ও প্রোটিন", link: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" }
-                ],
-                mockTests: [
-                    { title: "খাদ্য উপাদান - মেগা মক টেস্ট", link: "#" }
-                ],
-                practiceTests: [
-                    { chapter: "8. মানুষের খাদ্য ও খাদ্য উৎপাদন", q: "দেহে শক্তি উৎপন্নকারী একটি খাদ্যের উদাহরণ হলো -", optA: "ভিটামিন", optB: "শর্করা", optC: "খনিজ লবণ", optD: "জল", ans: "optB" },
-                    { chapter: "8. মানুষের খাদ্য ও খাদ্য উৎপাদন", q: "কোন ভিটামিনের অভাবে স্কার্ভি রোগ হয়?", optA: "ভিটামিন এ", optB: "ভিটামিন বি", optC: "ভিটামিন সি", optD: "ভিটামিন ডি", ans: "optC" }
-                ],
-                students: [],
-                logs: []
-            };
-            localStorage.setItem('ls_data', JSON.stringify(initialData));
-        }
+        // ==========================================
+        // 2. UTILITY FUNCTIONS
+        // ==========================================
 
-        function showSpinner(show) { document.getElementById('loader').style.display = show ? 'flex' : 'none'; }
+        function showSpinner(show) {
+            document.getElementById('loader').style.display = show ? 'flex' : 'none';
+        }
 
         function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container');
@@ -224,9 +243,13 @@
             const color = type === 'success' ? 'bg-green-500' : (type === 'error' ? 'bg-red-500' : 'bg-blue-500');
             toast.className = `${color} text-white px-4 py-3 rounded-lg shadow-lg transform transition-all duration-300 translate-x-full flex items-center gap-2`;
             toast.innerHTML = `<i class="fa-solid ${type === 'success' ? 'fa-check-circle' : 'fa-info-circle'}"></i> ${message}`;
+            
             container.appendChild(toast);
             setTimeout(() => toast.classList.remove('translate-x-full'), 10);
-            setTimeout(() => { toast.classList.add('translate-x-full'); setTimeout(() => toast.remove(), 300); }, 3000);
+            setTimeout(() => {
+                toast.classList.add('translate-x-full');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
         }
 
         function toBengaliNum(num) {
@@ -234,12 +257,20 @@
             return num.toString().split('').map(d => digits[d] || d).join('');
         }
 
-        function toggleSidebar(id) { document.getElementById(id).classList.toggle('-translate-x-full'); }
+        function toggleSidebar(id) {
+            const sidebar = document.getElementById(id);
+            sidebar.classList.toggle('-translate-x-full');
+        }
+
+        // ==========================================
+        // 3. API & DATA MANAGEMENT
+        // ==========================================
 
         async function fetchAPI(action = 'get', payload = null) {
             if(GAS_URL === "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE"){
                 return handleLocalAPI(action, payload);
             }
+
             try {
                 if (action === 'get') {
                     const res = await fetch(GAS_URL);
@@ -250,21 +281,28 @@
                         return true;
                     }
                 } else {
-                    const res = await fetch(GAS_URL, { method: 'POST', body: JSON.stringify({ action, data: payload }) });
+                    const res = await fetch(GAS_URL, {
+                        method: 'POST',
+                        body: JSON.stringify({ action, data: payload })
+                    });
                     const json = await res.json();
                     return json.status === 'success';
                 }
-            } catch (err) { return handleLocalAPI(action, payload); }
+            } catch (err) {
+                console.error("API Error:", err);
+                return handleLocalAPI(action, payload);
+            }
         }
 
         function handleLocalAPI(action, payload) {
             const local = JSON.parse(localStorage.getItem('ls_data')) || { materials: [], videos: [], mockTests: [], practiceTests: [], students: [], logs: [] };
+            
             if (action === 'get') {
                 state.data = local;
                 return true;
             } else {
                 let key = action.replace('add_', '') + 's';
-                if(key === 'student_logs') key = 'logs';
+                if(key === 'student_logs') key = 'logs'; 
                 if(local[key]) local[key].push(payload);
                 state.data = local;
                 localStorage.setItem('ls_data', JSON.stringify(local));
@@ -278,49 +316,83 @@
             showSpinner(false);
         }
 
+        // ==========================================
+        // 4. AUTHENTICATION
+        // ==========================================
+
         function toggleAuthTab(type) {
             document.getElementById('form-student-login').classList.toggle('hidden', type !== 'student');
             document.getElementById('form-admin-login').classList.toggle('hidden', type !== 'admin');
-            const stdTab = document.getElementById('tab-login-student'), admTab = document.getElementById('tab-login-admin');
+            
+            const stdTab = document.getElementById('tab-login-student');
+            const admTab = document.getElementById('tab-login-admin');
             
             if(type === 'student') {
-                stdTab.classList.replace('text-gray-500', 'text-primary'); stdTab.classList.add('bg-gray-50', 'border-b-2', 'border-primary');
-                admTab.classList.replace('text-primary', 'text-gray-500'); admTab.classList.remove('bg-gray-50', 'border-b-2', 'border-primary');
+                stdTab.className = "flex-1 py-3 font-semibold bg-gray-50 text-primary border-b-2 border-primary transition";
+                admTab.className = "flex-1 py-3 font-semibold text-gray-500 hover:bg-gray-50 transition";
             } else {
-                admTab.classList.replace('text-gray-500', 'text-primary'); admTab.classList.add('bg-gray-50', 'border-b-2', 'border-primary');
-                stdTab.classList.replace('text-primary', 'text-gray-500'); stdTab.classList.remove('bg-gray-50', 'border-b-2', 'border-primary');
+                admTab.className = "flex-1 py-3 font-semibold bg-gray-50 text-primary border-b-2 border-primary transition";
+                stdTab.className = "flex-1 py-3 font-semibold text-gray-500 hover:bg-gray-50 transition";
             }
         }
 
         async function handleStudentLogin(e) {
             e.preventDefault();
             const student = {
-                name: document.getElementById('std-name').value.trim(), roll: document.getElementById('std-roll').value.trim(),
-                section: document.getElementById('std-sec').value.trim().toUpperCase(), class: document.getElementById('std-class').value,
+                name: document.getElementById('std-name').value.trim(),
+                roll: document.getElementById('std-roll').value.trim(),
+                section: document.getElementById('std-sec').value.trim().toUpperCase(),
+                class: document.getElementById('std-class').value,
                 school: document.getElementById('std-school').value.trim()
             };
-            showSpinner(true); await initData();
+
+            showSpinner(true);
+            await initData(); 
+
             const exists = state.data.students.find(s => s.roll == student.roll && s.name === student.name);
-            if (!exists) await fetchAPI('add_student', student);
-            
-            const log = { date: new Date().toLocaleString('en-IN'), name: student.name, roll: student.roll, classSec: `${student.class} - ${student.section}` };
+            if (!exists) {
+                await fetchAPI('add_student', student);
+            }
+
+            const log = {
+                date: new Date().toLocaleString('en-IN'),
+                name: student.name,
+                roll: student.roll,
+                classSec: `${student.class} - ${student.section}`
+            };
             await fetchAPI('add_log', log);
+
             localStorage.setItem('auth_user', JSON.stringify({ type: 'student', data: student }));
             state.currentUser = student;
             showToast(`স্বাগতম, ${student.name}!`);
-            showSpinner(false); initApp();
+            showSpinner(false);
+            initApp();
         }
 
         function handleAdminLogin(e) {
             e.preventDefault();
-            const id = document.getElementById('admin-id').value, pwd = document.getElementById('admin-pwd').value;
+            const id = document.getElementById('admin-id').value;
+            const pwd = document.getElementById('admin-pwd').value;
+
             if (id === 'admin' && pwd === '1234') {
                 localStorage.setItem('auth_user', JSON.stringify({ type: 'admin' }));
-                state.currentUser = 'admin'; showToast('অ্যাডমিন লগইন সফল!'); initApp();
-            } else showToast('ভুল আইডি বা পাসওয়ার্ড!', 'error');
+                state.currentUser = 'admin';
+                showToast('অ্যাডমিন লগইন সফল!');
+                initApp();
+            } else {
+                showToast('ভুল আইডি বা পাসওয়ার্ড!', 'error');
+            }
         }
 
-        function logout() { localStorage.removeItem('auth_user'); state.currentUser = null; initApp(); }
+        function logout() {
+            localStorage.removeItem('auth_user');
+            state.currentUser = null;
+            initApp();
+        }
+
+        // ==========================================
+        // 5. ROUTING & INITIALIZATION
+        // ==========================================
 
         async function initApp() {
             const authStr = localStorage.getItem('auth_user');
@@ -328,73 +400,147 @@
                 const auth = JSON.parse(authStr);
                 if (auth.type === 'admin') {
                     state.currentUser = 'admin';
-                    document.getElementById('view-login').classList.add('hidden'); document.getElementById('view-student').classList.add('hidden');
+                    document.getElementById('view-login').classList.add('hidden');
+                    document.getElementById('view-student').classList.add('hidden');
                     document.getElementById('view-admin').classList.remove('hidden');
-                    await initData(); switchAdminTab('students');
+                    await initData();
+                    switchAdminTab('students');
                 } else {
                     state.currentUser = auth.data;
-                    document.getElementById('view-login').classList.add('hidden'); document.getElementById('view-admin').classList.add('hidden');
-                    document.getElementById('view-student').classList.remove('hidden'); document.getElementById('std-user-name').innerText = auth.data.name;
-                    await initData(); renderStudentSidebar(); loadStudentView('chapter', 0);
+                    document.getElementById('view-login').classList.add('hidden');
+                    document.getElementById('view-admin').classList.add('hidden');
+                    document.getElementById('view-student').classList.remove('hidden');
+                    document.getElementById('std-user-name').innerText = auth.data.name;
+                    await initData();
+                    renderStudentSidebar();
+                    loadStudentView('home');
                 }
             } else {
-                document.getElementById('view-student').classList.add('hidden'); document.getElementById('view-admin').classList.add('hidden');
+                document.getElementById('view-student').classList.add('hidden');
+                document.getElementById('view-admin').classList.add('hidden');
                 document.getElementById('view-login').classList.remove('hidden');
             }
         }
 
+        // ==========================================
+        // 6. STUDENT DASHBOARD LOGIC
+        // ==========================================
+
         function renderStudentSidebar() {
             const list = document.getElementById('std-chapter-list');
-            let currentPhase = ''; let html = '';
+            const phases = ['প্রথম', 'দ্বিতীয়', 'তৃতীয়'];
 
-            CHAPTERS.forEach((ch, idx) => {
-                if (ch.phase !== currentPhase) {
-                    currentPhase = ch.phase;
-                    let phaseStyle = ''; let icon = '';
-                    if(currentPhase === '১ম') { phaseStyle = 'bg-blue-50 text-blue-700 border-blue-200'; icon = 'fa-book-open'; }
-                    if(currentPhase === '২য়') { phaseStyle = 'bg-green-50 text-green-700 border-green-200'; icon = 'fa-book-open-reader'; }
-                    if(currentPhase === '৩য়') { phaseStyle = 'bg-purple-50 text-purple-700 border-purple-200'; icon = 'fa-graduation-cap'; }
-                    
-                    html += `
-                    <div class="mt-5 mb-2 px-3">
-                        <div class="px-3 py-2 rounded-lg border font-bold text-[13px] shadow-sm flex items-center gap-2 ${phaseStyle}">
-                            <i class="fa-solid ${icon} opacity-70"></i> ${currentPhase} পর্যায়ক্রমিক মূল্যায়ন
+            let html = `
+                <button onclick="loadStudentView('home')" id="nav-home-btn" class="std-nav-btn w-full text-left px-5 py-3 mb-2 font-bold border-l-4 transition flex items-center gap-3 text-sm border-transparent text-gray-700 hover:bg-emerald-50 hover:text-primary">
+                    <i class="fa-solid fa-house-chimney text-lg w-5 text-center"></i> হোম (সিলেবাস)
+                </button>
+            `;
+
+            phases.forEach((phaseStr, pIdx) => {
+                let icon = pIdx === 0 ? 'fa-book-open text-blue-500' : (pIdx === 1 ? 'fa-book-open-reader text-green-500' : 'fa-graduation-cap text-purple-500');
+                
+                html += `
+                <div class="border-b border-gray-100 last:border-0">
+                    <button onclick="toggleSidebarAccordion('sidebar-phase-${pIdx}')" class="w-full flex justify-between items-center px-5 py-3 hover:bg-gray-50 transition text-sm font-semibold text-gray-800">
+                        <span class="flex items-center gap-2"><i class="fa-solid ${icon} w-5 text-center"></i> ${phaseStr} পর্যায়ক্রমিক</span>
+                        <i class="fa-solid fa-chevron-down text-gray-400 transition-transform duration-300 text-xs" id="icon-sidebar-phase-${pIdx}"></i>
+                    </button>
+                    <div id="sidebar-phase-${pIdx}" class="max-h-0 overflow-hidden transition-all duration-300 bg-gray-50/50">
+                        <div class="py-1">
+                `;
+
+                CHAPTERS.forEach((ch, idx) => {
+                    if (ch.phase === phaseStr) {
+                        html += `
+                        <button onclick="loadStudentView('chapter', ${idx})" class="std-nav-btn w-full text-left pl-11 pr-4 py-2 hover:bg-emerald-50 text-gray-600 hover:text-primary font-medium border-l-4 border-transparent hover:border-primary transition flex items-center gap-3 text-[13px]" data-idx="${idx}">
+                            <div class="w-5 h-5 rounded-full bg-emerald-100 text-primary flex items-center justify-center font-bold text-[10px] shrink-0 shadow-sm border border-emerald-100"><i class="fa-solid fa-angle-right"></i></div>
+                            <span class="line-clamp-2">${ch.name}</span>
+                        </button>
+                        `;
+                    }
+                });
+
+                html += `
                         </div>
                     </div>
-                    `;
-                }
-                html += `
-                <button onclick="loadStudentView('chapter', ${idx})" class="std-nav-btn w-full text-left pl-6 pr-4 py-2.5 hover:bg-emerald-50 text-gray-700 font-medium border-l-4 border-transparent hover:border-primary transition flex items-center gap-3 text-sm" data-idx="${idx}">
-                    <div class="w-6 h-6 rounded-full bg-emerald-50 text-primary flex items-center justify-center font-bold text-xs shrink-0 shadow-sm border border-emerald-100">${toBengaliNum(idx+1)}</div>
-                    <span class="line-clamp-2">${ch.name}</span>
-                </button>
+                </div>
                 `;
             });
             list.innerHTML = html;
+
+            setTimeout(() => toggleSidebarAccordion('sidebar-phase-0'), 100);
+        }
+
+        function toggleSidebarAccordion(id) {
+            const content = document.getElementById(id);
+            const icon = document.getElementById('icon-' + id);
+            if(!content || !icon) return;
+            
+            if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+                content.style.maxHeight = '0px';
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                content.style.maxHeight = content.scrollHeight + 'px';
+                icon.style.transform = 'rotate(180deg)';
+            }
         }
 
         function loadStudentView(type, index = null) {
             const main = document.getElementById('std-main-content');
+            
             document.querySelectorAll('.std-nav-btn').forEach(btn => {
-                btn.classList.remove('bg-emerald-50', 'border-primary', 'text-primary'); btn.classList.add('border-transparent', 'text-gray-700');
+                btn.classList.remove('bg-emerald-50', 'border-primary', 'text-primary');
+                btn.classList.add('border-transparent', 'text-gray-700');
             });
 
-            if (type === 'mock') {
-                state.currentChapter = null; renderMockTests(main);
+            if (type === 'home') {
+                state.currentChapter = null;
+                const homeBtn = document.getElementById('nav-home-btn');
+                if(homeBtn) {
+                    homeBtn.classList.remove('border-transparent', 'text-gray-700');
+                    homeBtn.classList.add('bg-emerald-50', 'border-primary', 'text-primary');
+                }
+                renderHomeView(main);
+            } else if (type === 'mock') {
+                state.currentChapter = null;
+                renderMockTests(main);
             } else if (type === 'chapter') {
                 state.currentChapter = index;
                 const activeBtn = document.querySelector(`.std-nav-btn[data-idx="${index}"]`);
-                if(activeBtn) { activeBtn.classList.remove('border-transparent', 'text-gray-700'); activeBtn.classList.add('bg-emerald-50', 'border-primary', 'text-primary'); }
+                if(activeBtn) {
+                    activeBtn.classList.remove('border-transparent', 'text-gray-700');
+                    activeBtn.classList.add('bg-emerald-50', 'border-primary', 'text-primary');
+                }
                 renderChapterContent(main, index);
             }
-            if (window.innerWidth < 768) document.getElementById('std-sidebar').classList.add('-translate-x-full');
+
+            if (window.innerWidth < 768) {
+                document.getElementById('std-sidebar').classList.add('-translate-x-full');
+            }
+        }
+
+        function renderHomeView(container) {
+            container.innerHTML = `
+                <div class="max-w-4xl mx-auto mt-10">
+                    <div class="bg-white rounded-xl shadow-sm p-10 text-center border-t-4 border-primary">
+                        <i class="fa-solid fa-flask text-6xl text-emerald-500 mb-6 drop-shadow-md"></i>
+                        <h2 class="text-3xl font-bold text-gray-800 mb-4">স্বাগতম, ${state.currentUser?.name || 'শিক্ষার্থী'}!</h2>
+                        <p class="text-gray-600 text-lg">বাঁদিকের মেনু থেকে তোমার প্রয়োজনীয় পর্যায়ক্রমিক মূল্যায়ন ও অধ্যায় নির্বাচন করো।</p>
+                    </div>
+                </div>
+            `;
         }
 
         function renderMockTests(container) {
-            const tests = state.data.mockTests;
-            let html = `<div class="max-w-4xl mx-auto"><h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2"><i class="fa-solid fa-laptop-file text-blue-500"></i> মক টেস্ট সমূহ</h2>`;
-            if (tests.length === 0) html += `<div class="bg-white p-8 rounded-xl shadow text-center text-gray-500">বর্তমানে কোনো মক টেস্ট উপলব্ধ নেই।</div>`;
-            else {
+            const tests = state.data.mockTests || [];
+            let html = `
+                <div class="max-w-4xl mx-auto">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2"><i class="fa-solid fa-laptop-file text-blue-500"></i> মক টেস্ট সমূহ</h2>
+            `;
+
+            if (tests.length === 0) {
+                html += `<div class="bg-white p-8 rounded-xl shadow-sm text-center text-gray-500 border border-gray-100">বর্তমানে কোনো মক টেস্ট উপলব্ধ নেই।</div>`;
+            } else {
                 html += `<div class="grid grid-cols-1 md:grid-cols-2 gap-4">`;
                 tests.forEach((t, i) => {
                     html += `
@@ -403,47 +549,62 @@
                                 <div class="bg-blue-100 text-blue-600 w-12 h-12 rounded-lg flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-file-signature"></i></div>
                                 <div>
                                     <h3 class="font-bold text-gray-800 mb-2">${t.title}</h3>
-                                    <button onclick="openExternalTest('${t.link}')" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold transition shadow-sm">Test Start করুন <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-xs"></i></button>
+                                    <button onclick="openExternalTest('${t.link}')" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold transition shadow-sm">
+                                        Test Start করুন <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-xs"></i>
+                                    </button>
                                 </div>
                             </div>
-                        </div>`;
+                        </div>
+                    `;
                 });
                 html += `</div>`;
             }
-            html += `</div>`; container.innerHTML = html;
+            html += `</div>`;
+            container.innerHTML = html;
         }
 
-        function openExternalTest(url) { showToast('এই টেস্টটি একটি বাইরের লিংকে খুলবে।', 'info'); window.open(url, '_blank'); }
+        function openExternalTest(url) {
+            showToast('এই টেস্টটি একটি বাইরের লিংকে খুলবে।', 'info');
+            window.open(url, '_blank');
+        }
 
         function renderChapterContent(container, chapterIndex) {
             const chName = CHAPTERS[chapterIndex].name;
-            state.studentTab = state.studentTab || 'notes'; state.score = 0;
+            state.studentTab = state.studentTab || 'notes';
+            state.score = 0; 
 
             let html = `
                 <div class="max-w-4xl mx-auto">
                     <div class="bg-white rounded-xl shadow-sm p-6 mb-6 border-l-4 border-primary">
-                        <h2 class="text-xl md:text-2xl font-bold text-gray-800">${chName}</h2>
+                        <span class="text-xs font-bold text-emerald-600 bg-emerald-100 px-3 py-1 rounded-full mb-2 inline-block">${CHAPTERS[chapterIndex].phase} পর্যায়ক্রমিক</span>
+                        <h2 class="text-xl md:text-2xl font-bold text-gray-800 mt-2">${chName}</h2>
                     </div>
+
+                    <!-- Tabs -->
                     <div class="flex gap-2 border-b mb-6 overflow-x-auto pb-1 hide-scrollbar">
                         <button onclick="switchChapterTab('notes')" class="tab-btn whitespace-nowrap px-4 py-2 font-semibold ${state.studentTab === 'notes' ? 'active' : 'text-gray-500 hover:text-gray-800'}"><i class="fa-solid fa-book-open mr-2"></i>স্টাডি নোটস</button>
                         <button onclick="switchChapterTab('qbank')" class="tab-btn whitespace-nowrap px-4 py-2 font-semibold ${state.studentTab === 'qbank' ? 'active' : 'text-gray-500 hover:text-gray-800'}"><i class="fa-solid fa-layer-group mr-2"></i>প্রশ্ন সংকলন</button>
                         <button onclick="switchChapterTab('videos')" class="tab-btn whitespace-nowrap px-4 py-2 font-semibold ${state.studentTab === 'videos' ? 'active' : 'text-gray-500 hover:text-gray-800'}"><i class="fa-brands fa-youtube text-red-500 mr-2"></i>ভিডিও ক্লাস</button>
                         <button onclick="switchChapterTab('mcq')" class="tab-btn whitespace-nowrap px-4 py-2 font-semibold ${state.studentTab === 'mcq' ? 'active' : 'text-gray-500 hover:text-gray-800'}"><i class="fa-solid fa-brain text-purple-500 mr-2"></i>প্র্যাকটিস MCQ</button>
                     </div>
+                    
                     <div id="tab-content-area"></div>
                 </div>
             `;
-            container.innerHTML = html; switchChapterTab(state.studentTab);
+            container.innerHTML = html;
+            switchChapterTab(state.studentTab);
         }
 
         function switchChapterTab(tab) {
             state.studentTab = tab;
-            const area = document.getElementById('tab-content-area'); if(!area) return;
+            const area = document.getElementById('tab-content-area');
+            if(!area) return;
             
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.className = `tab-btn whitespace-nowrap px-4 py-2 font-semibold text-gray-500 hover:text-gray-800`;
                 if(btn.innerHTML.includes(tab === 'notes' ? 'নোটস' : tab === 'qbank' ? 'সংকলন' : tab === 'videos' ? 'ভিডিও' : 'MCQ')) {
-                    btn.classList.add('active', 'border-b-2', 'border-primary', 'text-primary'); btn.classList.remove('text-gray-500', 'hover:text-gray-800');
+                    btn.classList.add('active', 'border-b-2', 'border-primary', 'text-primary');
+                    btn.classList.remove('text-gray-500', 'hover:text-gray-800');
                 }
             });
 
@@ -452,41 +613,69 @@
             if (tab === 'notes' || tab === 'qbank') {
                 const targetType = tab === 'notes' ? 'Notes' : 'QuestionBank';
                 const emptyMsg = tab === 'notes' ? 'নোটস' : 'প্রশ্ন সংকলন';
-                const materials = state.data.materials.filter(m => m.chapter === chName && m.type === targetType);
                 
-                if(materials.length === 0) area.innerHTML = `<div class="p-8 text-center bg-white rounded-xl text-gray-500 shadow-sm">এই অধ্যায়ের কোনো ${emptyMsg} এখনো আপলোড করা হয়নি।</div>`;
-                else area.innerHTML = `<div class="grid gap-4 md:grid-cols-2">` + materials.map(m => `
-                    <a href="${m.link}" target="_blank" class="flex items-center p-4 bg-white rounded-xl shadow-sm hover:shadow-md border border-gray-100 transition group">
-                        <div class="bg-emerald-100 text-primary w-12 h-12 rounded-lg flex items-center justify-center text-xl shrink-0 group-hover:scale-110 transition"><i class="fa-solid fa-file-pdf"></i></div>
-                        <div class="ml-4"><span class="text-xs font-bold text-gray-400 uppercase tracking-wider">${m.type === 'QuestionBank' ? 'Q-Bank' : 'Notes'}</span>
-                        <h3 class="font-bold text-gray-800 leading-tight">${m.title}</h3></div>
-                    </a>`).join('') + `</div>`;
+                const materials = (state.data.materials || []).filter(m => m.chapter === chName && m.type === targetType);
+                
+                if(materials.length === 0) {
+                    area.innerHTML = `<div class="p-8 text-center bg-white rounded-xl text-gray-500 shadow-sm border border-gray-100">এই অধ্যায়ের কোনো ${emptyMsg} এখনো আপলোড করা হয়নি।</div>`;
+                } else {
+                    area.innerHTML = `<div class="grid gap-4 md:grid-cols-2">` + materials.map(m => `
+                        <a href="${m.link}" target="_blank" class="flex items-center p-4 bg-white rounded-xl shadow-sm hover:shadow-md border border-gray-100 transition group">
+                            <div class="bg-emerald-100 text-primary w-12 h-12 rounded-lg flex items-center justify-center text-xl shrink-0 group-hover:scale-110 transition"><i class="fa-solid fa-file-pdf"></i></div>
+                            <div class="ml-4">
+                                <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">${m.type === 'QuestionBank' ? 'Q-Bank' : 'Notes'}</span>
+                                <h3 class="font-bold text-gray-800 leading-tight">${m.title}</h3>
+                            </div>
+                        </a>
+                    `).join('') + `</div>`;
+                }
             } 
             else if (tab === 'videos') {
-                const videos = state.data.videos.filter(v => v.chapter === chName);
-                if(videos.length === 0) area.innerHTML = `<div class="p-8 text-center bg-white rounded-xl text-gray-500 shadow-sm">এই অধ্যায়ের কোনো ভিডিও ক্লাস উপলব্ধ নেই।</div>`;
-                else area.innerHTML = `<div class="grid gap-4 md:grid-cols-2">` + videos.map(v => {
-                    let ytId = ''; try { ytId = v.link.split('v=')[1]?.split('&')[0] || v.link.split('youtu.be/')[1]?.split('?')[0]; } catch(e){}
-                    const thumb = ytId ? `https://img.youtube.com/vi/${ytId}/hqdefault.jpg` : 'https://via.placeholder.com/320x180?text=Video';
-                    return `
-                    <a href="${v.link}" target="_blank" class="block bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition">
-                        <div class="relative"><img src="${thumb}" class="w-full h-40 object-cover" alt="Video"><div class="absolute inset-0 bg-black/20 flex items-center justify-center group-hover:bg-black/10 transition"><i class="fa-brands fa-youtube text-4xl text-white drop-shadow-md"></i></div></div>
-                        <div class="p-4"><h3 class="font-bold text-gray-800 line-clamp-2">${v.title}</h3></div>
-                    </a>`}).join('') + `</div>`;
+                const videos = (state.data.videos || []).filter(v => v.chapter === chName);
+                if(videos.length === 0) area.innerHTML = `<div class="p-8 text-center bg-white rounded-xl text-gray-500 shadow-sm border border-gray-100">এই অধ্যায়ের কোনো ভিডিও ক্লাস উপলব্ধ নেই।</div>`;
+                else {
+                    area.innerHTML = `<div class="grid gap-4 md:grid-cols-2">` + videos.map(v => {
+                        let ytId = '';
+                        try { ytId = v.link.split('v=')[1]?.split('&')[0] || v.link.split('youtu.be/')[1]?.split('?')[0]; } catch(e){}
+                        const thumb = ytId ? `https://img.youtube.com/vi/${ytId}/hqdefault.jpg` : 'https://placehold.co/320x180/064e3b/ffffff?text=Video+Class';
+                        
+                        return `
+                        <a href="${v.link}" target="_blank" class="block bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition border border-gray-100">
+                            <div class="relative">
+                                <img src="${thumb}" class="w-full h-40 object-cover" alt="Video">
+                                <div class="absolute inset-0 bg-black/20 flex items-center justify-center group-hover:bg-black/10 transition">
+                                    <i class="fa-brands fa-youtube text-4xl text-white drop-shadow-md"></i>
+                                </div>
+                            </div>
+                            <div class="p-4">
+                                <h3 class="font-bold text-gray-800 line-clamp-2">${v.title}</h3>
+                            </div>
+                        </a>
+                    `}).join('') + `</div>`;
+                }
             }
-            else if (tab === 'mcq') renderMCQ(area, chName);
+            else if (tab === 'mcq') {
+                renderMCQ(area, chName);
+            }
         }
 
         function renderMCQ(container, chName) {
-            const mcqs = state.data.practiceTests.filter(q => q.chapter === chName);
-            if(mcqs.length === 0) { container.innerHTML = `<div class="p-8 text-center bg-white rounded-xl text-gray-500 shadow-sm">এই অধ্যায়ের কোনো প্র্যাকটিস প্রশ্ন নেই।</div>`; return; }
+            const mcqs = (state.data.practiceTests || []).filter(q => q.chapter === chName);
+            
+            if(mcqs.length === 0) {
+                container.innerHTML = `<div class="p-8 text-center bg-white rounded-xl text-gray-500 shadow-sm border border-gray-100">এই অধ্যায়ের কোনো প্র্যাকটিস প্রশ্ন নেই।</div>`;
+                return;
+            }
+
             state.score = 0;
             let html = `
                 <div class="bg-white rounded-xl shadow-sm p-4 mb-4 flex justify-between items-center sticky top-0 z-10 border-b">
                     <span class="font-bold text-gray-700">মোট প্রশ্ন: ${toBengaliNum(mcqs.length)}টি</span>
                     <span class="font-bold text-primary bg-emerald-50 px-4 py-2 rounded-lg">স্কোর: <span id="mcq-score">০</span></span>
                 </div>
-                <div class="space-y-6">`;
+                <div class="space-y-6">
+            `;
+
             mcqs.forEach((q, i) => {
                 html += `
                     <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100" id="q-card-${i}">
@@ -497,133 +686,215 @@
                             <button onclick="checkAns(this, 'optC', '${q.ans}', ${i})" class="mcq-btn text-left p-3 border rounded-lg hover:bg-gray-50 transition">গ) ${q.optC}</button>
                             <button onclick="checkAns(this, 'optD', '${q.ans}', ${i})" class="mcq-btn text-left p-3 border rounded-lg hover:bg-gray-50 transition">ঘ) ${q.optD}</button>
                         </div>
-                    </div>`;
+                    </div>
+                `;
             });
-            html += `</div>`; container.innerHTML = html;
+
+            html += `</div>`;
+            container.innerHTML = html;
         }
 
         function checkAns(btnElement, selectedOpt, correctOpt, qIndex) {
-            const btns = document.getElementById(`q-opts-${qIndex}`).querySelectorAll('.mcq-btn');
-            btns.forEach(b => { b.disabled = true; b.classList.remove('hover:bg-gray-50'); b.classList.add('cursor-not-allowed', 'opacity-80'); });
+            const container = document.getElementById(`q-opts-${qIndex}`);
+            const btns = container.querySelectorAll('.mcq-btn');
+            
+            btns.forEach(b => {
+                b.disabled = true;
+                b.classList.remove('hover:bg-gray-50');
+                b.classList.add('cursor-not-allowed', 'opacity-80');
+            });
+
             const optMap = ['optA', 'optB', 'optC', 'optD'];
+            
             if (selectedOpt === correctOpt) {
-                btnElement.classList.add('bg-green-500', 'text-white', 'border-green-600', 'font-bold'); state.score++; document.getElementById('mcq-score').innerText = toBengaliNum(state.score);
+                btnElement.classList.add('bg-green-500', 'text-white', 'border-green-600', 'font-bold');
+                state.score++;
+                document.getElementById('mcq-score').innerText = toBengaliNum(state.score);
             } else {
                 btnElement.classList.add('bg-red-500', 'text-white', 'border-red-600');
                 const correctIdx = optMap.indexOf(correctOpt);
-                if(correctIdx !== -1) btns[correctIdx].classList.add('bg-green-500', 'text-white', 'border-green-600', 'font-bold');
+                if(correctIdx !== -1) {
+                    btns[correctIdx].classList.add('bg-green-500', 'text-white', 'border-green-600', 'font-bold');
+                }
             }
         }
 
+        // ==========================================
+        // 7. ADMIN DASHBOARD LOGIC
+        // ==========================================
+
         function switchAdminTab(tabId) {
-            document.querySelectorAll('.admin-tab').forEach(el => { el.classList.remove('bg-gray-700', 'border-primary'); el.classList.add('border-transparent'); });
+            document.querySelectorAll('.admin-tab').forEach(el => {
+                el.classList.remove('bg-gray-700', 'border-primary');
+                el.classList.add('border-transparent');
+            });
+            
             const activeBtn = document.querySelector(`button[onclick="switchAdminTab('${tabId}')"]`);
-            if (activeBtn) { activeBtn.classList.add('bg-gray-700', 'border-primary'); activeBtn.classList.remove('border-transparent'); }
-            if (window.innerWidth < 768) document.getElementById('admin-sidebar').classList.add('-translate-x-full');
+            if (activeBtn) {
+                activeBtn.classList.add('bg-gray-700', 'border-primary');
+                activeBtn.classList.remove('border-transparent');
+            }
+
+            if (window.innerWidth < 768) {
+                document.getElementById('admin-sidebar').classList.add('-translate-x-full');
+            }
+
             renderAdminContent(tabId);
         }
 
         function renderAdminContent(tabId) {
             const main = document.getElementById('admin-main-content');
             let html = '';
-            const chOptions = CHAPTERS.map(c => `<option value="${c.name}">${c.name}</option>`).join('');
+
+            // Using object mapping since CHAPTERS is an array of objects
+            const chOptions = CHAPTERS.map(c => `<option value="${c.name}">${c.name} (${c.phase})</option>`).join('');
 
             if (tabId === 'students') {
+                const students = state.data.students || [];
                 html = `
-                    <h2 class="text-2xl font-bold mb-4">নিবন্ধিত ছাত্রছাত্রী (${state.data.students.length})</h2>
+                    <h2 class="text-2xl font-bold mb-4">নিবন্ধিত ছাত্রছাত্রী (${students.length})</h2>
                     <div class="bg-white rounded-lg shadow overflow-x-auto">
                         <table class="w-full text-left border-collapse">
                             <thead><tr class="bg-gray-200 text-gray-700"><th class="p-3">নাম</th><th class="p-3">রোল</th><th class="p-3">সেকশন</th><th class="p-3">স্কুল</th></tr></thead>
-                            <tbody>${state.data.students.map(s => `<tr class="border-b"><td class="p-3">${s.name}</td><td class="p-3">${s.roll}</td><td class="p-3">${s.section}</td><td class="p-3">${s.school}</td></tr>`).join('')}</tbody>
+                            <tbody>
+                                ${students.map(s => `<tr class="border-b"><td class="p-3">${s.name}</td><td class="p-3">${s.roll}</td><td class="p-3">${s.section}</td><td class="p-3">${s.school}</td></tr>`).join('')}
+                            </tbody>
                         </table>
-                    </div>`;
+                    </div>
+                `;
             } 
             else if (tabId === 'logs') {
+                const logs = state.data.logs || [];
                 html = `
                     <h2 class="text-2xl font-bold mb-4">লগিন হিস্ট্রি</h2>
                     <div class="bg-white rounded-lg shadow overflow-x-auto">
                         <table class="w-full text-left border-collapse">
                             <thead><tr class="bg-gray-200 text-gray-700"><th class="p-3">তারিখ ও সময়</th><th class="p-3">নাম</th><th class="p-3">রোল</th><th class="p-3">ক্লাস-সেকশন</th></tr></thead>
-                            <tbody>${[...state.data.logs].reverse().slice(0, 100).map(l => `<tr class="border-b"><td class="p-3 text-sm text-gray-500">${l.date}</td><td class="p-3 font-semibold">${l.name}</td><td class="p-3">${l.roll}</td><td class="p-3">${l.classSec}</td></tr>`).join('')}</tbody>
+                            <tbody>
+                                ${[...logs].reverse().slice(0, 100).map(l => `<tr class="border-b"><td class="p-3 text-sm text-gray-500">${l.date}</td><td class="p-3 font-semibold">${l.name}</td><td class="p-3">${l.roll}</td><td class="p-3">${l.classSec}</td></tr>`).join('')}
+                            </tbody>
                         </table>
-                    </div>`;
+                    </div>
+                `;
             }
             else if (tabId === 'materials') {
+                const materials = state.data.materials || [];
                 html = `
                     <h2 class="text-2xl font-bold mb-4">স্টাডি মেটেরিয়াল যোগ করুন</h2>
-                    <form onsubmit="handleAdminSubmit(event, 'add_material')" class="bg-white p-5 rounded-lg shadow mb-6 space-y-4">
+                    <form onsubmit="handleAdminSubmit(event, 'add_material')" class="bg-white p-5 rounded-lg shadow-sm border border-gray-100 mb-6 space-y-4">
                         <div class="grid md:grid-cols-2 gap-4">
-                            <div><label class="block text-sm font-bold mb-1">অধ্যায়</label><select name="chapter" class="w-full border rounded p-2">${chOptions}</select></div>
-                            <div><label class="block text-sm font-bold mb-1">ক্যাটাগরি/টাইপ</label>
-                                <select name="type" class="w-full border rounded p-2 bg-gray-50">
-                                    <option value="Notes">স্টাডি নোটস</option><option value="QuestionBank">প্রশ্ন সংকলন</option>
+                            <div><label class="block text-sm font-bold mb-1">অধ্যায়</label><select name="chapter" class="w-full border rounded p-2 focus:outline-primary">${chOptions}</select></div>
+                            <div>
+                                <label class="block text-sm font-bold mb-1">ক্যাটাগরি/টাইপ</label>
+                                <select name="type" class="w-full border rounded p-2 bg-gray-50 focus:outline-primary">
+                                    <option value="Notes">স্টাডি নোটস</option>
+                                    <option value="QuestionBank">প্রশ্ন সংকলন</option>
                                 </select>
                             </div>
-                            <div class="md:col-span-2"><label class="block text-sm font-bold mb-1">শিরোনাম</label><input type="text" name="title" required class="w-full border rounded p-2"></div>
-                            <div class="md:col-span-2"><label class="block text-sm font-bold mb-1">লিংক (Drive PDF etc.)</label><input type="url" name="link" required class="w-full border rounded p-2"></div>
+                            <div class="md:col-span-2"><label class="block text-sm font-bold mb-1">শিরোনাম</label><input type="text" name="title" required class="w-full border rounded p-2 focus:outline-primary"></div>
+                            <div class="md:col-span-2"><label class="block text-sm font-bold mb-1">লিংক (Drive PDF etc.)</label><input type="url" name="link" required class="w-full border rounded p-2 focus:outline-primary"></div>
                         </div>
-                        <button type="submit" class="bg-primary text-white px-4 py-2 rounded font-bold hover:bg-dark">যোগ করুন</button>
+                        <button type="submit" class="bg-primary text-white px-4 py-2 rounded font-bold hover:bg-dark transition">যোগ করুন</button>
                     </form>
-                    <h3 class="font-bold mb-2">বিদ্যমান মেটেরিয়ালস (${state.data.materials.length})</h3>
-                    <ul class="space-y-2">${state.data.materials.map(m => `<li class="bg-white p-3 rounded shadow-sm text-sm border-l-4 border-primary"><b>${m.chapter}</b> <span class="bg-gray-200 px-2 py-0.5 rounded text-xs ml-2">${m.type}</span> <br><a href="${m.link}" target="_blank" class="text-blue-600 hover:underline mt-1 inline-block">${m.title}</a></li>`).join('')}</ul>`;
+                    <h3 class="font-bold mb-2">বিদ্যমান মেটেরিয়ালস (${materials.length})</h3>
+                    <ul class="space-y-2">
+                        ${materials.map(m => `<li class="bg-white p-3 rounded shadow-sm text-sm border-l-4 border-primary"><b>${m.chapter}</b> <span class="bg-gray-200 px-2 py-0.5 rounded text-xs ml-2">${m.type === 'QuestionBank' ? 'Q-Bank' : 'Notes'}</span> <br><a href="${m.link}" target="_blank" class="text-blue-600 hover:underline mt-1 inline-block">${m.title}</a></li>`).join('')}
+                    </ul>
+                `;
             }
             else if (tabId === 'videos') {
+                const videos = state.data.videos || [];
                 html = `
                     <h2 class="text-2xl font-bold mb-4">ভিডিও ক্লাস যোগ করুন</h2>
-                    <form onsubmit="handleAdminSubmit(event, 'add_video')" class="bg-white p-5 rounded-lg shadow mb-6 space-y-4">
-                        <div><label class="block text-sm font-bold mb-1">অধ্যায়</label><select name="chapter" class="w-full border rounded p-2">${chOptions}</select></div>
-                        <div><label class="block text-sm font-bold mb-1">শিরোনাম</label><input type="text" name="title" required class="w-full border rounded p-2"></div>
-                        <div><label class="block text-sm font-bold mb-1">ইউটিউব লিংক</label><input type="url" name="link" required class="w-full border rounded p-2"></div>
-                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded font-bold hover:bg-red-600">যোগ করুন</button>
+                    <form onsubmit="handleAdminSubmit(event, 'add_video')" class="bg-white p-5 rounded-lg shadow-sm border border-gray-100 mb-6 space-y-4">
+                        <div><label class="block text-sm font-bold mb-1">অধ্যায়</label><select name="chapter" class="w-full border rounded p-2 focus:outline-red-500">${chOptions}</select></div>
+                        <div><label class="block text-sm font-bold mb-1">শিরোনাম</label><input type="text" name="title" required class="w-full border rounded p-2 focus:outline-red-500"></div>
+                        <div><label class="block text-sm font-bold mb-1">ইউটিউব লিংক</label><input type="url" name="link" required class="w-full border rounded p-2 focus:outline-red-500"></div>
+                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded font-bold hover:bg-red-600 transition">যোগ করুন</button>
                     </form>
-                    <ul class="space-y-2">${state.data.videos.map(v => `<li class="bg-white p-3 rounded shadow-sm text-sm border-l-4 border-red-500"><b>${v.chapter}</b>: <a href="${v.link}" target="_blank" class="text-blue-600 hover:underline">${v.title}</a></li>`).join('')}</ul>`;
+                    <ul class="space-y-2">
+                        ${videos.map(v => `<li class="bg-white p-3 rounded shadow-sm text-sm border-l-4 border-red-500"><b>${v.chapter}</b>: <a href="${v.link}" target="_blank" class="text-blue-600 hover:underline">${v.title}</a></li>`).join('')}
+                    </ul>
+                `;
             }
             else if (tabId === 'mockTests') {
+                const mockTests = state.data.mockTests || [];
                 html = `
                     <h2 class="text-2xl font-bold mb-4">গ্লোবাল মক টেস্ট যোগ করুন</h2>
-                    <form onsubmit="handleAdminSubmit(event, 'add_mock_test')" class="bg-white p-5 rounded-lg shadow mb-6 space-y-4">
-                        <div><label class="block text-sm font-bold mb-1">পরীক্ষার নাম/শিরোনাম</label><input type="text" name="title" required class="w-full border rounded p-2"></div>
-                        <div><label class="block text-sm font-bold mb-1">লিংক (Google Form / Any Tool)</label><input type="url" name="link" required class="w-full border rounded p-2"></div>
-                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded font-bold hover:bg-blue-600">যোগ করুন</button>
+                    <form onsubmit="handleAdminSubmit(event, 'add_mock_test')" class="bg-white p-5 rounded-lg shadow-sm border border-gray-100 mb-6 space-y-4">
+                        <div><label class="block text-sm font-bold mb-1">পরীক্ষার নাম/শিরোনাম</label><input type="text" name="title" required class="w-full border rounded p-2 focus:outline-blue-500"></div>
+                        <div><label class="block text-sm font-bold mb-1">লিংক (Google Form / Any Tool)</label><input type="url" name="link" required class="w-full border rounded p-2 focus:outline-blue-500"></div>
+                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded font-bold hover:bg-blue-600 transition">যোগ করুন</button>
                     </form>
-                    <ul class="space-y-2">${state.data.mockTests.map(m => `<li class="bg-white p-3 rounded shadow-sm flex justify-between items-center border-l-4 border-blue-500"><span><b>${m.title}</b></span> <a href="${m.link}" target="_blank" class="text-xs bg-gray-200 px-2 py-1 rounded hover:bg-gray-300">Open <i class="fa-solid fa-external-link-alt"></i></a></li>`).join('')}</ul>`;
+                    <ul class="space-y-2">
+                        ${mockTests.map(m => `<li class="bg-white p-3 rounded shadow-sm flex justify-between items-center border-l-4 border-blue-500"><span><b>${m.title}</b></span> <a href="${m.link}" target="_blank" class="text-xs bg-gray-200 px-2 py-1 rounded hover:bg-gray-300">Open <i class="fa-solid fa-external-link-alt"></i></a></li>`).join('')}
+                    </ul>
+                `;
             }
             else if (tabId === 'practiceTests') {
+                const practiceTests = state.data.practiceTests || [];
                 html = `
                     <h2 class="text-2xl font-bold mb-4">প্র্যাকটিস MCQ যোগ করুন</h2>
-                    <form onsubmit="handleAdminSubmit(event, 'add_practice_test')" class="bg-white p-5 rounded-lg shadow mb-6 space-y-4">
-                        <div><label class="block text-sm font-bold mb-1">অধ্যায়</label><select name="chapter" class="w-full border rounded p-2">${chOptions}</select></div>
-                        <div><label class="block text-sm font-bold mb-1">প্রশ্ন</label><textarea name="q" required class="w-full border rounded p-2" rows="2"></textarea></div>
+                    <form onsubmit="handleAdminSubmit(event, 'add_practice_test')" class="bg-white p-5 rounded-lg shadow-sm border border-gray-100 mb-6 space-y-4">
+                        <div><label class="block text-sm font-bold mb-1">অধ্যায়</label><select name="chapter" class="w-full border rounded p-2 focus:outline-purple-500">${chOptions}</select></div>
+                        <div><label class="block text-sm font-bold mb-1">প্রশ্ন</label><textarea name="q" required class="w-full border rounded p-2 focus:outline-purple-500" rows="2"></textarea></div>
                         <div class="grid grid-cols-2 gap-4">
-                            <div><label class="text-xs font-bold">ক) Option A</label><input type="text" name="optA" required class="w-full border rounded p-1"></div>
-                            <div><label class="text-xs font-bold">খ) Option B</label><input type="text" name="optB" required class="w-full border rounded p-1"></div>
-                            <div><label class="text-xs font-bold">গ) Option C</label><input type="text" name="optC" required class="w-full border rounded p-1"></div>
-                            <div><label class="text-xs font-bold">ঘ) Option D</label><input type="text" name="optD" required class="w-full border rounded p-1"></div>
+                            <div><label class="text-xs font-bold">ক) Option A</label><input type="text" name="optA" required class="w-full border rounded p-1 focus:outline-purple-500"></div>
+                            <div><label class="text-xs font-bold">খ) Option B</label><input type="text" name="optB" required class="w-full border rounded p-1 focus:outline-purple-500"></div>
+                            <div><label class="text-xs font-bold">গ) Option C</label><input type="text" name="optC" required class="w-full border rounded p-1 focus:outline-purple-500"></div>
+                            <div><label class="text-xs font-bold">ঘ) Option D</label><input type="text" name="optD" required class="w-full border rounded p-1 focus:outline-purple-500"></div>
                         </div>
-                        <div><label class="block text-sm font-bold mb-1">সঠিক উত্তর</label>
-                            <select name="ans" class="w-full border rounded p-2 bg-green-50 font-bold">
-                                <option value="optA">ক) Option A</option><option value="optB">খ) Option B</option><option value="optC">গ) Option C</option><option value="optD">ঘ) Option D</option>
+                        <div>
+                            <label class="block text-sm font-bold mb-1">সঠিক উত্তর নির্বাচন করুন</label>
+                            <select name="ans" class="w-full border rounded p-2 bg-green-50 font-bold focus:outline-purple-500">
+                                <option value="optA">ক) Option A</option>
+                                <option value="optB">খ) Option B</option>
+                                <option value="optC">গ) Option C</option>
+                                <option value="optD">ঘ) Option D</option>
                             </select>
                         </div>
-                        <button type="submit" class="bg-purple-600 text-white px-4 py-2 rounded font-bold hover:bg-purple-700">যোগ করুন</button>
+                        <button type="submit" class="bg-purple-600 text-white px-4 py-2 rounded font-bold hover:bg-purple-700 transition">যোগ করুন</button>
                     </form>
-                    <div class="bg-white rounded p-4 shadow text-sm"><b>সর্বমোট প্রশ্ন: ${state.data.practiceTests.length}</b></div>`;
+                    <div class="bg-white rounded-lg border border-gray-100 p-4 shadow-sm text-sm">
+                        <b>সর্বমোট সংরক্ষিত প্রশ্ন: ${practiceTests.length} টি</b>
+                    </div>
+                `;
             }
+
             main.innerHTML = html;
         }
 
         async function handleAdminSubmit(e, action) {
-            e.preventDefault(); const formData = new FormData(e.target); const data = Object.fromEntries(formData.entries());
-            showSpinner(true); const success = await fetchAPI(action, data);
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+            
+            showSpinner(true);
+            const success = await fetchAPI(action, data);
+            
             if (success) {
-                showToast('সফলভাবে যুক্ত করা হয়েছে!'); e.target.reset(); await initData(); 
-                const currentTabMap = { 'add_material': 'materials', 'add_video': 'videos', 'add_mock_test': 'mockTests', 'add_practice_test': 'practiceTests' };
+                showToast('সফলভাবে যুক্ত করা হয়েছে!');
+                e.target.reset();
+                await initData(); 
+                
+                const currentTabMap = {
+                    'add_material': 'materials',
+                    'add_video': 'videos',
+                    'add_mock_test': 'mockTests',
+                    'add_practice_test': 'practiceTests'
+                };
                 renderAdminContent(currentTabMap[action]);
-            } else showToast('সংরক্ষণ করতে সমস্যা হয়েছে!', 'error');
+            } else {
+                showToast('সংরক্ষণ করতে সমস্যা হয়েছে!', 'error');
+            }
             showSpinner(false);
         }
 
+        // ==========================================
+        // INITIALIZE APP ON LOAD
+        // ==========================================
         window.addEventListener('DOMContentLoaded', initApp);
+
     </script>
 </body>
 </html>
